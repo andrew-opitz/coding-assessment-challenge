@@ -1,3 +1,7 @@
-var score = 0
-const MAX_HIGHSCORE = 5
+function startTime() {
+    timeInterval = setInterval() {
+        document.getElementById('timer').textContent = TimeLeft + "seconds remaining"
+        timeLeft -=
+    }
+}
 
