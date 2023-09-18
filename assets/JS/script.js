@@ -11,7 +11,6 @@ var timer
 
 function showQuestion() {
     question = questions[questionIndex]
-    console.log(question.text)
     questionTextEl.innerText = question.text
 
     choicesDiv.innerHTML = ''
@@ -22,13 +21,13 @@ function showQuestion() {
 }
 
 function showHighScores() {
-// clear timer interval
+    clearInterval(timer)
 
 localStorage.setItem('score', time)
 window.location = './highscores.html'
 }
 
-function checkAnswer () {
+function checkAnswer (event) {
     
         
         var buttonText = event.target.innerText
@@ -39,7 +38,7 @@ function checkAnswer () {
             choiceAlert.innerText = 'Correct!'
         } else {
             choiceAlert.innerText = "Wrong!"
-            time -= 5
+            time -= 15
         }
 
         choiceAlert.classList.remove('hide')
@@ -59,12 +58,24 @@ function checkAnswer () {
 
 }
 
-function startGame (){
+function startGame() {
     questionBox.classList.remove('hide')
     timeEl.classList.remove('hide')
     startBtn.classList.add('hide')
 
-    // startTimer()
+    var timer = setInterval(function(){
+        time--
+        timeEl.innerText = time
+
+        if(time < 0) {
+            time = 0
+        }
+
+        if (time <= 0) {
+            showHighScores()
+
+        }
+    }, 1000)
 
     showQuestion()
 }
