@@ -1,53 +1,65 @@
-var showScoreBtn = document.querySelector('#show-scores')
+var showScoresBtn = document.querySelector('#show-scores')
 var scoreOutputDiv = document.querySelector('.scores-output')
 var scoreFormWrap = document.querySelector('.score-form-wrap')
-var scoreShow = document.querySelector('#scores-output')
+var sOutput = document.querySelector('#score-output')
 var scoreForm = document.querySelector('#score-form')
+var namePlace = document.querySelector('#name-place')
 var score = localStorage.getItem('score')
 
-function showScore() {
-    scoreShow.innerText = 'Congrats! Your highscore is ' + score
-}
-
-function getHighScores() {
+function getHighscores () {
     return JSON.parse(localStorage.getItem('highscores')) || []
 }
 
-function saveHighScore() {
-    var nameInput = document.querySelector('#name-input')
-    var name = nameInput.value
+function saveHighscore() {
+    var namePlace = document.querySelector('#name-place')
+    var name = namePlace.value
 
-    var highscores = getHighScores() 
-    
+    var highscores = getHighscores()
+
     highscores.push({
         name: name,
         score: score
     })
-
-    localStorage.setItem(JSON.stringify(highscores))
+    localStorage.setItem('highscores', JSON.stringify(highscores))
 }
 
-function showScoreOutput () {
-    scoreFormWrap.classList.add('hide')
-    scoreOutputDiv.classList.remove('hide')
+function showScoreOutput() {
+    if (scoreOutputDiv.classList.contains('hide')) {
+        scoreFormWrap.classList.add('hide');
+        scoreOutputDiv.classList.remove('hide');
 
-    var highscores = getHighScores()
+    var highscores = getHighscores()
+    scoreOutputDiv.innerHTML = '';
 
     if (!highscores.length) {
-        scoreOutputDiv.innerHTML = '<p>No saved scores</p>'
+        scoreOutputDiv.innerHTML = '<p>No saved scores</p>';
+    } else {
+        highscores.forEach(function(scoreObj) {
+            scoreOutputDiv.insertAdjacentHTML('beforeend', `
+                <div>
+                    <h3>Name: ${scoreObj.name}</h3>
+                    <p>Score: ${scoreObj.score}</p>
+                </div>
+            `);
+        });
     }
-
-    highscores.forEach(function(scoreObj) {
-        scoreOutputDiv.insertAdjacentHTML('beforeend', `
-        <div>
-        <h3>Name: ${scoreObj.name}</h3>
-        <p>Score: ${scoreObj.score}</p>
-        </div>
+    showScoresBtn.innerHTML = 'Show Highscore Form'; 
+    } else {
         
-        `)
-    })
+        scoreFormWrap.classList.remove('hide');
+        scoreOutputDiv.classList.add('hide');
+        
+        
+        showScoresBtn.innerHTML = 'Show Highscores';
+    }
+}
+
+function showScore() {
+    var score = localStorage.getItem('score')
+    
+    sOutput.innerText = 'Your highscore is ' + score
 }
 
 showScore()
-showScoreBtn.addEventListener('click', showScoreOutput)
-scoreForm.addEventListener('submit', saveHighScore)
+showScoresBtn.addEventListener('click', showScoreOutput)
+scoreForm.addEventListener('submit', saveHighscore) 
