@@ -8,7 +8,7 @@ This website was created to be a practice assessment testing the users knowledge
 N/A
 
 ## Usage
-![Screen Recording](./assets/video/Screen%20Recording%202023-09-18%20at%208.01.12%20PM.mov)
+[Screen Recording](./assets/video/Screen%20Recording%202023-09-18%20at%208.01.12%20PM.mov)
 
 ## Credits
 N/A
